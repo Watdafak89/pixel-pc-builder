@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PIXEL PC BUILDER ACADEMY — เกมสื่อการสอนการประกอบคอมพิวเตอร์</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="crt-overlay" class="crt-overlay" aria-hidden="true"></div>
+
+  <!-- Top Navigation Bar -->
+  <header class="top-bar">
+    <div class="brand" id="btn-home-logo" title="กลับหน้าหลัก">
+      <canvas id="logo-sprite" width="32" height="32" class="pixel-canvas logo-icon"></canvas>
+      <div class="brand-text">
+        <span class="brand-title">PIXEL PC BUILDER</span>
+        <span class="brand-sub">ACADEMY • สื่อการสอนประกอบคอมพิวเตอร์</span>
+      </div>
+    </div>
+
+    <nav class="top-nav" id="top-nav">
+      <button class="px-btn nav-btn active" data-view="home">🏠 หน้าหลัก</button>
+      <button class="px-btn nav-btn" data-view="tutorial">1. ฝึกสอน</button>
+      <button class="px-btn nav-btn" data-view="challenge">2. ทดสอบจับเวลา</button>
+      <button class="px-btn nav-btn" data-view="missions">3. ภารกิจจัดสเปก</button>
+      <button class="px-btn nav-btn" data-view="troubleshoot">4. ศูนย์ซ่อม & BIOS</button>
+      <button class="px-btn nav-btn" data-view="learn">5. คลังความรู้ & ควิซ</button>
+    </nav>
+
+    <div class="top-controls">
+      <select id="select-difficulty" class="px-select" title="เลือกระดับความยาก">
+        <option value="easy">🟢 ง่าย</option>
+        <option value="normal" selected>🟡 ปานกลาง</option>
+        <option value="hard">🔴 ยาก</option>
+      </select>
+      <button class="px-btn px-btn-gold icon-btn" id="btn-open-report" title="ข้อมูลผู้เรียน & ส่งออกคะแนนครู">🎓 ส่งคะแนนครู</button>
+      <button class="px-btn icon-btn" id="btn-sfx" title="เปิด/ปิดเสียงเอฟเฟกต์">🔊 SFX</button>
+      <button class="px-btn icon-btn" id="btn-bgm" title="เปิด/ปิดเพลง 8-bit">🎵 BGM</button>
+      <button class="px-btn icon-btn" id="btn-crt" title="เปิด/ปิดเอฟเฟกต์จอ Retro CRT">📺 CRT</button>
+    </div>
+  </header>
+
+  <!-- Main App Viewport -->
+  <main id="app-main" class="app-main">
+
+    <!-- ==================== VIEW: HOME HUB ==================== -->
+    <section id="view-home" class="view active">
+      <div class="hero-panel px-box">
+        <div class="hero-left">
+          <div class="badge-pill">🎓 EDUCATIONAL PIXEL GAME • 5 MODES</div>
+          <h1 class="hero-title">ประกอบคอมพิวเตอร์<br /><span class="accent-cyan">แบบ PIXEL ART</span></h1>
+          <p class="hero-desc">
+            เรียนรู้การประกอบคอมพิวเตอร์ตั้งแต่พื้นฐานจนเชี่ยวชาญ ครบทุกขั้นตอนจริง
+            ทั้งการเลือกสเปกเช็กความเข้ากันได้ ทาซิลิโคน เสียบสายไฟ จัดทิศทางลม Airflow
+            ทดสอบบูตหน้าจอ BIOS วินิจฉัยอาการเสีย และทำแบบทดสอบวัดผล!
+          </p>
+          <div class="hero-actions">
+            <button class="px-btn px-btn-primary px-btn-lg" data-goto="tutorial">▶ เริ่มเรียนโหมดฝึกสอน (โหมด 1)</button>
+            <button class="px-btn px-btn-gold px-btn-lg" data-goto="missions">💼 ลุยภารกิจจัดสเปก (โหมด 3)</button>
+          </div>
+        </div>
+        <div class="hero-right">
+          <div class="hero-showcase px-inset">
+            <canvas id="hero-pc-canvas" width="200" height="160" class="pixel-canvas hero-canvas"></canvas>
+            <div class="hero-status-bar">
+              <span class="led-dot green"></span> SYSTEM READY • 16-BIT WORKSHOP
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Progress Overview Strip -->
+      <div class="progress-strip px-box">
+        <div class="student-strip">
+          <div id="home-student-label" class="student-label">👨‍🎓 ผู้เรียน: <strong>ยังไม่ระบุชื่อ</strong> (กดกรอกข้อมูลเพื่อออกใบรายงานผล)</div>
+          <button class="px-btn px-btn-sm px-btn-gold" id="btn-home-report">📊 เปิดใบรายงานผล & ดาวน์โหลดเกียรติบัตร</button>
+        </div>
+        <div class="progress-info">
+          <span class="px-label">ความก้าวหน้าการเรียนรู้รวม (MASTERY)</span>
+          <span id="home-mastery-text" class="px-value accent-gold">0%</span>
+        </div>
+        <div class="px-progress-track">
+          <div id="home-mastery-bar" class="px-progress-fill" style="width: 0%"></div>
+        </div>
+        <div class="progress-stats" id="home-stats-row">
+          <span>📘 ฝึกสอน: <strong id="stat-tutorial">ยังไม่จบ</strong></span>
+          <span>⏱️ สถิติจับเวลา: <strong id="stat-best-time">--:--</strong></span>
+          <span>💼 ภารกิจผ่าน: <strong id="stat-missions">0/8</strong></span>
+          <span>🔧 ซ่อมสำเร็จ: <strong id="stat-repairs">0/8</strong></span>
+          <span>📝 คะแนนควิซ: <strong id="stat-quiz">0/20</strong></span>
+        </div>
+      </div>
+
+      <!-- 5 Modes Grid -->
+      <div class="modes-grid">
+        <article class="mode-card px-box" data-goto="tutorial">
+          <div class="mode-num">MODE 01</div>
+          <div class="mode-icon-wrap"><canvas class="pixel-canvas mode-sprite" data-sprite="mb" width="48" height="48"></canvas></div>
+          <h3>ฝึกสอนทีละขั้นตอน</h3>
+          <p>อาจารย์วัช พาประกอบคอมครบ 12 ขั้นตอน พร้อมคำอธิบายหน้าที่อุปกรณ์ จุดสังเกต และข้อควรระวัง</p>
+          <div class="mode-tags"><span>Guided</span><span>12 Steps</span><span>มือใหม่</span></div>
+        </article>
+
+        <article class="mode-card px-box" data-goto="challenge">
+          <div class="mode-num">MODE 02</div>
+          <div class="mode-icon-wrap"><canvas class="pixel-canvas mode-sprite" data-sprite="cpu" width="48" height="48"></canvas></div>
+          <h3>ทดสอบประกอบ & จับเวลา</h3>
+          <p>ประกอบเครื่องด้วยตนเองโดยไม่มีไกด์อัตโนมัติ จับเวลา นับความแม่นยำ ตรวจลำดับ และตัดเกรด S–F</p>
+          <div class="mode-tags"><span>Timer</span><span>Exam</span><span>เกรด S-F</span></div>
+        </article>
+
+        <article class="mode-card px-box" data-goto="missions">
+          <div class="mode-num">MODE 03</div>
+          <div class="mode-icon-wrap"><canvas class="pixel-canvas mode-sprite" data-sprite="gpu" width="48" height="48"></canvas></div>
+          <h3>ภารกิจจัดสเปกตามงบ</h3>
+          <p>8 โจทย์ลูกค้า เช็กความเข้ากันได้จริง (AM4/AM5/LGA1700, DDR4/DDR5, กำลังไฟ PSU) แล้วลงมือประกอบจริง</p>
+          <div class="mode-tags"><span>Compatibility</span><span>Budget</span><span>8 Missions</span></div>
+        </article>
+
+        <article class="mode-card px-box" data-goto="troubleshoot">
+          <div class="mode-num">MODE 04</div>
+          <div class="mode-icon-wrap"><canvas class="pixel-canvas mode-sprite" data-sprite="psu" width="48" height="48"></canvas></div>
+          <h3>ศูนย์ซ่อม & จำลอง BIOS</h3>
+          <p>ฝึกขั้นตอนสมจริง ทาซิลิโคน เสียบสายไฟ ฟังเสียง POST Beep วินิจฉัยอาการเสีย และซ่อมเครื่อง 8 เคส</p>
+          <div class="mode-tags"><span>Thermal Paste</span><span>Wiring</span><span>8 Cases</span></div>
+        </article>
+
+        <article class="mode-card px-box" data-goto="learn">
+          <div class="mode-num">MODE 05</div>
+          <div class="mode-icon-wrap"><canvas class="pixel-canvas mode-sprite" data-sprite="ram" width="48" height="48"></canvas></div>
+          <h3>สารานุกรม & แบบทดสอบ</h3>
+          <p>คลังความรู้ชิ้นส่วนคอมพิวเตอร์ 10 หมวด พร้อมแบบทดสอบวัดผล 20 ข้อ เฉลยละเอียด และเหรียญตรา</p>
+          <div class="mode-tags"><span>Encyclopedia</span><span>20 Quiz</span><span>12 Badges</span></div>
+        </article>
+      </div>
+
+      <!-- Badges Preview -->
+      <div class="badges-section px-box">
+        <div class="section-header">
+          <h3>🏆 เหรียญตราความสำเร็จ (PIXEL ACHIEVEMENTS)</h3>
+          <button class="px-btn px-btn-sm px-btn-danger" id="btn-reset-save">รีเซ็ตข้อมูล</button>
+        </div>
+        <div id="home-badges-grid" class="badges-grid"></div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW: WORKBENCH (MODES 1, 2, 3-BUILD, 4-REPAIR) ==================== -->
+    <section id="view-workbench" class="view">
+      <!-- Top Status HUD -->
+      <div class="wb-hud px-box">
+        <div class="wb-hud-left">
+          <span id="wb-mode-badge" class="badge-pill">MODE 1: GUIDED TUTORIAL</span>
+          <h2 id="wb-title">ฝึกสอนการประกอบคอมพิวเตอร์</h2>
+        </div>
+        <div class="wb-hud-stats">
+          <div class="hud-chip" id="hud-step-wrap">ขั้นตอน: <strong id="hud-step">1 / 12</strong></div>
+          <div class="hud-chip" id="hud-timer-wrap">⏱️ <strong id="hud-timer">00:00</strong></div>
+          <div class="hud-chip" id="hud-score-wrap">⭐ คะแนน: <strong id="hud-score">100</strong></div>
+          <div class="hud-chip" id="hud-errors-wrap">⚠️ ผิดพลาด: <strong id="hud-errors">0</strong></div>
+        </div>
+        <div class="wb-hud-actions">
+          <button class="px-btn px-btn-sm" id="btn-wb-hint" title="ขอคำใบ้">💡 คำใบ้ (<span id="hint-count">∞</span>)</button>
+          <button class="px-btn px-btn-sm" id="btn-wb-airflow" title="แสดงทิศทางลม Airflow">💨 Airflow</button>
+          <button class="px-btn px-btn-sm" id="btn-wb-glass" title="เปิด/ปิดฝาข้างกระจก">🪟 ฝาข้าง</button>
+          <button class="px-btn px-btn-sm" id="btn-wb-restart" title="เริ่มประกอบใหม่">🔄 เริ่มใหม่</button>
+        </div>
+      </div>
+
+      <!-- Workbench 3-Column Layout -->
+      <div class="wb-grid">
+        <!-- Left Column: Parts Tray & Tools -->
+        <aside class="wb-panel wb-inventory px-box">
+          <div class="panel-title">
+            <span>📦 อุปกรณ์ & เครื่องมือ</span>
+            <span class="sub-hint">คลิกเลือก หรือ ลากวาง</span>
+          </div>
+          <div class="inv-tabs">
+            <button class="px-btn px-btn-xs inv-tab active" data-tab="parts">ชิ้นส่วนหลัก</button>
+            <button class="px-btn px-btn-xs inv-tab" data-tab="tools">ซิลิโคน & สายไฟ</button>
+          </div>
+          <div id="wb-parts-list" class="parts-list"></div>
+        </aside>
+
+        <!-- Center Column: Pixel PC Case Canvas -->
+        <div class="wb-center">
+          <div class="canvas-stage px-box">
+            <div class="stage-topbar">
+              <span id="stage-selected-label">👆 เลือกชิ้นส่วนด้านซ้าย แล้วคลิกตำแหน่งในเคส (หรือลากวาง)</span>
+              <span id="stage-watt-label" class="accent-cyan">กำลังไฟระบบ: 0W / 0W</span>
+            </div>
+            <div class="canvas-wrap" id="wb-canvas-wrap">
+              <canvas id="wb-canvas" width="320" height="220" class="pixel-canvas wb-canvas"></canvas>
+              <!-- Floating Thermal Paste Mini-Game Overlay -->
+              <div id="paste-minigame" class="overlay-card px-box hidden">
+                <h4>🧪 ทาซิลิโคนระบายความร้อน (Thermal Paste)</h4>
+                <p>กดปุ่ม <strong>"บีบซิลิโคน"</strong> ค้างไว้หรือกดย้ำ ให้ปริมาณอยู่ในโซนสีเขียว (ขนาดเม็ดถั่วเขียว ~45-65%)</p>
+                <div class="paste-meter-wrap">
+                  <div id="paste-zone-good" class="paste-zone-good"></div>
+                  <div id="paste-meter-fill" class="paste-meter-fill" style="width: 0%"></div>
+                </div>
+                <div class="paste-status-text" id="paste-status-text">ปริมาณ: 0% (ยังไม่ทา)</div>
+                <div class="paste-actions">
+                  <button class="px-btn px-btn-primary" id="btn-squeeze-paste">💧 บีบซิลิโคน (+12%)</button>
+                  <button class="px-btn" id="btn-clean-paste">🧻 เช็ดออก</button>
+                  <button class="px-btn px-btn-gold" id="btn-confirm-paste">✅ ยืนยัน</button>
+                </div>
+              </div>
+            </div>
+            <!-- Bottom Quick Controls on Case -->
+            <div class="case-controls">
+              <button class="px-btn px-btn-sm" id="btn-psu-switch">⚡ สวิตช์ PSU: <span id="psu-switch-state" class="accent-red">OFF (0)</span></button>
+              <button class="px-btn px-btn-success" id="btn-power-pc">⏻ กดปุ่มเปิดเครื่อง (TEST POWER / BIOS)</button>
+              <button class="px-btn px-btn-sm hidden" id="btn-trouble-check">🔍 ตรวจจุดเสียอีกครั้ง</button>
+            </div>
+          </div>
+
+          <!-- Mentor Bar -->
+          <div class="mentor-bar px-box">
+            <canvas id="mentor-canvas" width="48" height="48" class="pixel-canvas mentor-avatar"></canvas>
+            <div class="mentor-speech">
+              <div class="mentor-name">
+                <span>👨‍🏫 อาจารย์วัช</span>
+                <span id="mentor-mood-tag" class="mood-tag">GUIDE</span>
+              </div>
+              <p id="mentor-text">ยินดีต้อนรับสู่ห้องปฏิบัติการ! เริ่มจากติดตั้งเมนบอร์ดลงบนเคสกันเลย</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Step Guide / Checklist / Hardware Info -->
+        <aside class="wb-panel wb-sidebar px-box">
+          <div class="panel-title">
+            <span id="wb-right-title">📋 รายการขั้นตอน</span>
+          </div>
+          <!-- Active Part Educational Card -->
+          <div id="wb-info-card" class="info-card px-inset">
+            <div class="info-card-head">
+              <canvas id="info-card-sprite" width="40" height="40" class="pixel-canvas"></canvas>
+              <div>
+                <h4 id="info-card-name">เลือกชิ้นส่วนเพื่อดูข้อมูล</h4>
+                <span id="info-card-spec" class="info-spec">คลิกที่ชิ้นส่วนใดก็ได้</span>
+              </div>
+            </div>
+            <p id="info-card-desc" class="info-desc">เมื่อคุณเลือกอุปกรณ์ คำอธิบายหน้าที่และข้อควรระวังในการประกอบจะปรากฏตรงนี้</p>
+            <div id="info-card-tip" class="info-tip">💡 เคล็ดลับ: จับขอบแผงวงจรเสมอเพื่อป้องกันไฟฟ้าสถิต (ESD)</div>
+          </div>
+
+          <!-- Checklist -->
+          <div id="wb-checklist" class="checklist"></div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW: MODE 3 BUDGET & COMPATIBILITY MISSIONS ==================== -->
+    <section id="view-missions" class="view">
+      <div class="section-banner px-box">
+        <div>
+          <span class="badge-pill">MODE 03 • BUDGET & COMPATIBILITY</span>
+          <h2>💼 ภารกิจจัดสเปกคอมพิวเตอร์ตามงบประมาณ</h2>
+          <p>เลือกอุปกรณ์ให้ตรงโจทย์ อยู่ในงบ และ <strong>เข้ากันได้ 100%</strong> (Socket, RAM DDR, กำลังไฟ PSU) จากนั้นลงมือประกอบจริง!</p>
+        </div>
+      </div>
+
+      <!-- Mission Selector Cards -->
+      <div id="mission-selector" class="mission-selector-grid"></div>
+
+      <!-- Active Mission Configurator -->
+      <div id="mission-configurator" class="mission-config-grid">
+        <!-- Left: Client Brief + Live Compatibility & Meters -->
+        <div class="mission-left">
+          <div class="client-card px-box">
+            <div class="client-head">
+              <canvas id="client-avatar-canvas" width="56" height="56" class="pixel-canvas client-avatar"></canvas>
+              <div>
+                <div class="badge-pill" id="mission-diff-badge">MISSION 1</div>
+                <h3 id="mission-name">เครื่องสำนักงาน & เรียนออนไลน์</h3>
+                <p id="mission-story" class="client-story"></p>
+              </div>
+            </div>
+            <div class="mission-reqs" id="mission-reqs"></div>
+          </div>
+
+          <!-- Compatibility & Budget Panel -->
+          <div class="compat-panel px-box">
+            <h3>🔌 ตรวจสอบความเข้ากันได้ & งบประมาณ</h3>
+
+            <div class="meter-block">
+              <div class="meter-label">
+                <span>💰 งบประมาณที่ใช้</span>
+                <strong id="cfg-budget-text">฿0 / ฿15,000</strong>
+              </div>
+              <div class="px-progress-track"><div id="cfg-budget-bar" class="px-progress-fill" style="width:0%"></div></div>
+            </div>
+
+            <div class="meter-block">
+              <div class="meter-label">
+                <span>⚡ กำลังไฟระบบ (TDP + เผื่อโหลด)</span>
+                <strong id="cfg-watt-text">0W / 0W PSU</strong>
+              </div>
+              <div class="px-progress-track"><div id="cfg-watt-bar" class="px-progress-fill cyan" style="width:0%"></div></div>
+            </div>
+
+            <div class="perf-bars">
+              <div class="perf-item">
+                <span>📊 งานเอกสาร/ทั่วไป</span>
+                <div class="px-progress-track sm"><div id="perf-office" class="px-progress-fill" style="width:0%"></div></div>
+                <span id="perf-office-val">0</span>
+              </div>
+              <div class="perf-item">
+                <span>🎮 ประสิทธิภาพเกมมิ่ง</span>
+                <div class="px-progress-track sm"><div id="perf-gaming" class="px-progress-fill gold" style="width:0%"></div></div>
+                <span id="perf-gaming-val">0</span>
+              </div>
+              <div class="perf-item">
+                <span>🎬 งานตัดต่อ / 3D / AI</span>
+                <div class="px-progress-track sm"><div id="perf-work" class="px-progress-fill violet" style="width:0%"></div></div>
+                <span id="perf-work-val">0</span>
+              </div>
+            </div>
+
+            <div id="compat-checks-list" class="compat-list"></div>
+
+            <div class="mission-launch-wrap">
+              <button class="px-btn px-btn-success px-btn-lg full-width" id="btn-launch-mission-build">
+                🔧 สเปกพร้อมแล้ว! นำไปประกอบจริง ➔
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Part Pickers -->
+        <div class="mission-right px-box">
+          <h3>🛒 เลือกชิ้นส่วนคอมพิวเตอร์ (7 หมวดหมู่)</h3>
+          <div id="mission-part-pickers" class="part-pickers"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW: MODE 4 TROUBLESHOOTING LAB ==================== -->
+    <section id="view-troubleshoot" class="view">
+      <div class="section-banner px-box">
+        <div>
+          <span class="badge-pill">MODE 04 • REALISTIC DIAGNOSTICS & BIOS</span>
+          <h2>🔧 ศูนย์ซ่อม & วินิจฉัยอาการเสียคอมพิวเตอร์</h2>
+          <p>ลูกค้ายกเครื่องที่มีอาการเสียมาให้ซ่อม! กดเปิดเครื่องเพื่อสังเกตอาการ ฟังเสียง POST Beep ดูหน้าจอ BIOS แล้วซ่อมให้กลับมาบูตผ่าน</p>
+        </div>
+      </div>
+      <div id="troubleshoot-grid" class="troubleshoot-grid"></div>
+    </section>
+
+    <!-- ==================== VIEW: MODE 5 ENCYCLOPEDIA & QUIZ ==================== -->
+    <section id="view-learn" class="view">
+      <div class="section-banner px-box">
+        <div>
+          <span class="badge-pill">MODE 05 • ENCYCLOPEDIA & QUIZ</span>
+          <h2>📚 สารานุกรมอุปกรณ์ & แบบทดสอบวัดผล</h2>
+          <p>ทบทวนความรู้ชิ้นส่วนคอมพิวเตอร์ทุกหมวดอย่างละเอียด และทดสอบความเข้าใจ 20 ข้อ</p>
+        </div>
+        <div class="learn-tabs">
+          <button class="px-btn px-btn-primary learn-tab active" data-ltab="encyclopedia">📖 สารานุกรม (10 หมวด)</button>
+          <button class="px-btn learn-tab" data-ltab="quiz">📝 แบบทดสอบวัดผล (20 ข้อ)</button>
+        </div>
+      </div>
+
+      <!-- Sub-tab: Encyclopedia -->
+      <div id="ltab-encyclopedia" class="ltab-content active">
+        <div id="encyc-grid" class="encyc-grid"></div>
+      </div>
+
+      <!-- Sub-tab: Quiz -->
+      <div id="ltab-quiz" class="ltab-content">
+        <div class="quiz-container px-box" id="quiz-box"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== MODAL: PIXEL BIOS / POST SIMULATOR ==================== -->
+  <div id="bios-modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-backdrop"></div>
+    <div class="bios-window px-box">
+      <div class="bios-header">
+        <span>PIXEL-AMI UEFI BIOS UTILITY v2.60</span>
+        <span id="bios-status-pill" class="bios-pill">POST RUNNING...</span>
+      </div>
+      <div id="bios-screen" class="bios-screen"></div>
+      <div class="bios-footer">
+        <span class="bios-hint">[ESC] ปิดหน้าจอ BIOS • ตรวจสอบอุณหภูมิ สายไฟ และอุปกรณ์ที่ตรวจพบ</span>
+        <div class="bios-actions">
+          <button class="px-btn px-btn-gold hidden" id="btn-bios-finish">🏆 รับผลการประเมิน!</button>
+          <button class="px-btn" id="btn-bios-close">ปิดหน้าต่าง</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: RESULT / GRADE CERTIFICATE ==================== -->
+  <div id="result-modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-backdrop"></div>
+    <div class="result-window px-box">
+      <div id="result-content"></div>
+      <div class="result-actions">
+        <button class="px-btn px-btn-primary" id="btn-result-again">🔄 เล่นอีกครั้ง</button>
+        <button class="px-btn px-btn-gold" id="btn-result-home">🏠 กลับหน้าหลัก</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: CLASSROOM SCORE REPORT & CERTIFICATE EXPORT ==================== -->
+  <div id="report-modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-backdrop"></div>
+    <div class="report-window px-box">
+      <div class="report-head">
+        <div>
+          <span class="badge-pill">🎓 CLASSROOM SCORE & CERTIFICATE EXPORT</span>
+          <h2>ใบรายงานผลคะแนน & เกียรติบัตรผู้เรียน</h2>
+        </div>
+        <button class="px-btn px-btn-sm" id="btn-report-close">✖ ปิด</button>
+      </div>
+
+      <div class="student-form-grid px-inset">
+        <label class="form-field">
+          <span>ชื่อ-นามสกุลผู้เรียน</span>
+          <input type="text" id="inp-std-name" class="px-input" placeholder="เช่น ด.ช. รักเรียน ประกอบเก่ง" />
+        </label>
+        <label class="form-field">
+          <span>รหัสนักเรียน / รหัสประจำตัว</span>
+          <input type="text" id="inp-std-id" class="px-input" placeholder="เช่น 66101" />
+        </label>
+        <label class="form-field">
+          <span>ระดับชั้น / ห้อง</span>
+          <input type="text" id="inp-std-room" class="px-input" placeholder="เช่น ม.3/1 หรือ ปวช.2" />
+        </label>
+        <div class="form-field form-save-wrap">
+          <button class="px-btn px-btn-primary full-width" id="btn-save-student">💾 บันทึกข้อมูลผู้เรียน</button>
+        </div>
+      </div>
+
+      <div id="report-summary-box" class="report-summary-box px-inset"></div>
+
+      <div class="cert-preview-wrap px-inset">
+        <canvas id="cert-canvas" width="720" height="440" class="pixel-canvas cert-canvas"></canvas>
+      </div>
+
+      <div class="report-actions">
+        <button class="px-btn px-btn-gold" id="btn-export-png">🖼️ ดาวน์โหลดเกียรติบัตร (PNG)</button>
+        <button class="px-btn px-btn-success" id="btn-export-csv">📊 ดาวน์โหลดไฟล์คะแนน (CSV เข้า Excel)</button>
+        <button class="px-btn px-btn-primary" id="btn-export-copy">📋 คัดลอกผลคะแนนส่งครู</button>
+        <button class="px-btn" id="btn-export-print">🖨️ พิมพ์ใบรายงานผล</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Area -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Scripts (Classic order for zero-CORS file:// compatibility) -->
+  <script defer src="js/sound.js"></script>
+  <script defer src="js/data.js"></script>
+  <script defer src="js/pixelArt.js"></script>
+  <script defer src="js/workbench.js"></script>
+  <script defer src="js/modes.js"></script>
+  <script defer src="js/app.js"></script>
+</body>
+</html>
