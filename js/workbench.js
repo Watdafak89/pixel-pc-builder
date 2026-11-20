@@ -1044,7 +1044,7 @@ window.Workbench = (function () {
       } else {
         setInvTab('parts');
       }
-      setMentor('guide', '💡 คำใบ้จาก อาจารย์วัช: ' + activeTrouble.clue);
+      setMentor('guide', '💡 คำใบ้จาก Prof.Watcharapong: ' + activeTrouble.clue);
       App.toast('💡 ' + activeTrouble.clue, 'gold');
     } else {
       const cur = getCurrentStep();
