@@ -277,7 +277,7 @@ window.PixelArt = (function () {
     }
   }
 
-  // ==================== อาจารย์วัช PIXEL PORTRAIT ====================
+  // ==================== Prof.Watcharapong PIXEL PORTRAIT ====================
   function drawMentor(canvas, mood = 'guide', tick = 0) {
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -926,11 +926,11 @@ window.PixelArt = (function () {
 
     ctx.fillStyle = '#fbbf24';
     ctx.font = 'bold 13px "Chakra Petch", sans-serif';
-    ctx.fillText('อาจารย์วัช', W - 154, 366);
+    ctx.fillText('Prof.Watcharapong', W - 154, 366);
     ctx.fillStyle = '#a8a1c7';
     ctx.font = '12px "Chakra Petch", sans-serif';
-    ctx.fillText('หัวหน้าห้องปฏิบัติการ', W - 154, 384);
-    ctx.fillText('Pixel PC Academy', W - 154, 400);
+    ctx.fillText('นายวัชรพงษ์ สุขแช่ม', W - 154, 384);
+    ctx.fillText('ครูวิทยาลัยเทคนิคจันทบุรี', W - 154, 400);
   }
 
   return {
