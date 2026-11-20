@@ -929,8 +929,8 @@ window.PixelArt = (function () {
     ctx.fillText('Prof.Watcharapong', W - 154, 366);
     ctx.fillStyle = '#a8a1c7';
     ctx.font = '12px "Chakra Petch", sans-serif';
-    ctx.fillText('นายวัชรพงษ์ สุขแช่ม', W - 154, 384);
-    ctx.fillText('ครูวิทยาลัยเทคนิคจันทบุรี', W - 154, 400);
+    ctx.fillText('หัวหน้าห้องปฏิบัติการ', W - 154, 384);
+    ctx.fillText('Pixel PC Academy', W - 154, 400);
   }
 
   return {
